@@ -19,6 +19,23 @@ var Pad = function (canvas) {
 	var width = canvas.width;
 	var height = canvas.height;
 
+	var num_squares = 20;
+	var square_width = width/num_squares;
+	var square_height = height/num_squares;
+	var squares = []
+
+	var reset_squares = function() {
+		for (var i = 0; i < num_squares; i++){
+			squares[i] = new Array(num_squares);
+			for (var j = 0; j < num_squares; j++){
+				if (Math.random() > .5) {
+					squares[i][j] = true;
+					}
+				}
+			}
+		}
+	reset_squares();
+
 	// sets the line width for subsequent drawing
 	var apply_line_width = function (ctx, line_width) {
 		ctx.lineWidth = (line_width) ? line_width : DEFAULT_LINE_WIDTH;
@@ -33,47 +50,12 @@ var Pad = function (canvas) {
 
 	// sets the fill color for subsequent drawing
 	var apply_fill_color = function (ctx, color) {
-		if (color) {
-			ctx.fillStyle = 'rgba(' + color.red + ',' + color.green + ',' + color.blue + ', 1)';
-			ctx.fill();
-			}
+		ctx.fillStyle = 'rgba(' + 0 + ',' + 0 + ',' + 0 + ', 1)';
+		ctx.fill();
 		}
 
 	// return the abstract object from the constructor
-
 	return {
-		// Draws a circle at the given coordinate (as returned by the
-		// Coord function) of the given radius (defaulting to
-		// DEFAULT_CIRCLE_RADIUS if the radius is 0 or omitted). An
-		// optional line width can be supplied (defaults to
-		// DEFAULT_LINE_WIDTH otherwise), as well as an optional color
-		// and fill color (both objects returned by the Color
-		// function).
-		draw_circle: function(coord, radius, line_width, color, fill_color) {
-			context.beginPath();
-			context.arc(coord.x, coord.y, (radius) ? radius : DEFAULT_CIRCLE_RADIUS, 0, Math.PI * 2, true);
-			context.closePath();
-			apply_line_width(context, line_width);
-			apply_color(context, color);
-			apply_fill_color(context, fill_color);
-			context.stroke();
-			},
-
-		// Draws a line between the given coordinates (as returned by
-		// the Coord function). An optional line width can be supplied
-		// (defaults to DEFAULT_LINE_WIDTH otherwise), as well as an
-		// optional color (returned by the Color function).
-		draw_line: function(from, to, line_width, color) {
-			context.beginPath();
-			context.moveTo(from.x, from.y);
-			context.lineTo(to.x, to.y);
-			apply_line_width(context, line_width);
-			apply_color(context, color);
-			context.lineWidth = (line_width) ? line_width : DEFAULT_LINE_WIDTH;
-			context.closePath();
-			context.stroke();
-			},
-
 		// Draws a rectangle starting at the top left corner (as
 		// returned by the Coord function) of the given width and
 		// height. An optional line width can be supplied (defaults to
@@ -89,10 +71,78 @@ var Pad = function (canvas) {
 			context.stroke();
 			},
 
+		// Draws a square given indices
+		draw_square: function(x_index, y_index, color) {
+			context.beginPath();
+			x_coord = x_index * square_width;
+			y_coord = y_index * square_height;
+			context.rect(x_coord, y_coord, square_width, square_height);
+			apply_color(context, color);
+			apply_fill_color(context, color);
+			context.closePath();
+			context.stroke();
+			},
+
+		step_squares: function() {
+			var new_squares = [];
+			for (var i = 0; i < squares.length; i++) {
+				new_squares[i] = new Array(squares.length);
+				for (var j = 0; j < squares.length; j++) {
+					new_squares[i][j] = this.square_lives(i, j, squares);
+					}
+				}
+			squares = new_squares;
+			return new_squares;
+			},
+
+		draw_squares: function() {
+			this.clear();
+			for (var i =0; i < squares.length; i++){
+				for (var j=0; j < squares.length; j++){
+					if (!!squares[i][j]){
+						this.draw_square(i, j);
+						}
+					}
+				}
+			},
+
+		square_lives: function(x_index, y_index, squares) {
+			var num_neighbors = 0;
+			for (var i = -1; i <= 1; i++){
+				for (var j = -1; j <= 1; j++){
+					if ((i != 0 || j != 0) &&
+						x_index + i >= 0 && x_index + i < squares.length &&
+						y_index + j >= 0 && y_index + j < squares.length) {
+						if (!!squares[x_index + i][y_index + j]){
+							num_neighbors += 1;
+							}
+						}
+					}
+				}
+			if (!!squares[x_index][y_index] && 
+				 (num_neighbors === 2 || num_neighbors === 3)){
+				return true;
+				}
+			if (!squares[x_index][y_index] && num_neighbors === 3){
+				return true;
+				}
+			return false;
+			},
+
+		step: function() {
+			this.step_squares();
+			this.draw_squares();
+			},
+
 		// Clears the entire board
 		clear: function() {
 			context.clearRect(0, 0, width, height);
 			},
+
+		reset: function() {
+			this.clear();
+			reset_squares();
+		},
 
 		// return width and height of the drawing area
 		get_width: function() {
@@ -100,6 +150,10 @@ var Pad = function (canvas) {
 			},
 		get_height: function() {
 			return height;
-			}
+			},
+
+		get_squares: function() {
+			return squares;
+			},
 	}
 }
