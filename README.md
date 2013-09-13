@@ -16,3 +16,10 @@ The conway_game functional takes a canvas and an optional argument for the origi
 I decided to split the library into grid and conway_game because it allows one to create different cellular automata on the grid. The conway_game is just an example.
 
 I then controlled the game from run_conway_game.js. This creates the game and sets it to run a time interval step every 500ms. This function also allows for control of the game and testing. 
+
+Extra Feature Ideas 
+-------------------
+
+- Change color of squares that have persisted
+- Allow for white/black to be switched and the game to continue so that it never reaches an end point
+- Reverse the logic of squares living and dieing to run the game backwards
