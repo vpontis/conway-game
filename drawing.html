@@ -3,25 +3,30 @@
 <head>
     <script src="graphics.js"></script>
     <style>
-    canvas {position: absolute; left: 100px; top: 100px; height:400px; width:400px}
+    canvas {position: absolute; left: 100px; top: 100px; }
     </style>
 </head>
 
 <body>
 
-<!--
-define the HTML canvas element that will hold the graphical output
--->
-<canvas id="canvas"></canvas>
-<button id="resetButton">Reset</button>
-<button id="playButton">Play</button>
-<button id="pauseButton">Pause</button>
-<span id="status"> playing...</span>
+	<!--
+	define the HTML canvas element that will hold the graphical output
+	-->
+	<canvas id="canvas" height="600" width="600"></canvas>
 
-<!--
-execute the JavaScript
--->
-<script src="basic_drawing.js"></script>
+	<!--
+	define the buttons that will control the game
+	-->
+	<button id="resetButton">Reset</button>
+	<button id="playButton">Play</button>
+	<button id="pauseButton">Pause</button>
+	<button id="testButton">Test</button>
+	<span id="status"> playing...</span>
+
+	<!--
+	execute the JavaScript
+	-->
+	<script src="run_conway_game.js"></script>
 
 
 
