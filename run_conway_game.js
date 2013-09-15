@@ -1,10 +1,13 @@
 (function () {
 	// begin the game when the page is loaded
 	game = Conway_Game(document.getElementById('canvas'));
-	game.reset();
 	var runId = setInterval(function(){
 		game.step()
 		}, 500);
+
+	var reset = function(){
+		game = Conway_Game(document.getElementById('canvas'));
+	}
 
 	var play = function(){
 		runId = setInterval(function(){
@@ -36,26 +39,35 @@
 		}
 
 	var test_step = function(){
+		test_output = "";
+
 		var squares = [[1, 1, 1], [1,1, 1], [1,1,1]];
-		game = Conway_Game(document.getElementById('canvas'), squares);
-		console.log(game.get_squares());
-		game.step();
-		console.log(compare_arrays(game.get_squares(),
-			[[true,false,true], [false,false,false], [true,false,true]]));
-		game.step();
-		console.log(compare_arrays(game.get_squares(), 
-			[[false,false,false], [false,false,false], [false,false,false]]));
+		var test_game = Conway_Game(document.getElementById('canvas'), squares);
+
+		test_game.step();
+		test_output += "initial step: ";
+		test_output += compare_arrays(test_game.get_squares(),
+			[[true,false,true], [false,false,false], [true,false,true]]);
+		test_output += "<br />";
+
+		test_game.step();
+		test_output += "second step: ";
+		test_output += compare_arrays(test_game.get_squares(), 
+			[[false,false,false], [false,false,false], [false,false,false]]);
+		test_output += "<br />";
+		return test_output;
 		};
 
 	var test = function(){
 		pause();
-		test_step();
+		test_step_output = test_step();
+		document.getElementById("testingOutput").innerHTML = test_step_output;
 	}
 
-	document.getElementById("resetButton").onclick = game.reset;
+	document.getElementById("resetButton").onclick = reset;
 	document.getElementById("playButton").onclick = play;
 	document.getElementById("pauseButton").onclick = pause;
 	document.getElementById("testButton").onclick = test;
-	reset();
+	game.reset();
 
 	}) ()

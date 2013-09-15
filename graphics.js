@@ -44,9 +44,10 @@ var Conway_Game = function(canvas, initial_squares){
 	var NUM_SQUARES = 40;
 	var grid = new Grid(canvas, NUM_SQUARES);
 
-	var squares = []
+	var squares = [];
 
-	var reset_squares = function() {
+	var randomize_squares = function() {
+		squares = new Array(NUM_SQUARES);
 		for (var i = 0; i < NUM_SQUARES; i++){
 			squares[i] = new Array(NUM_SQUARES);
 			for (var j = 0; j < NUM_SQUARES; j++){
@@ -55,9 +56,10 @@ var Conway_Game = function(canvas, initial_squares){
 					}
 				}
 			}
+		return squares;
 		}
 	if (initial_squares == undefined){
-		reset_squares();
+		squares = randomize_squares();
 	} else {
 		squares = initial_squares;
 		}
@@ -105,7 +107,7 @@ var Conway_Game = function(canvas, initial_squares){
 
 		reset: function() {
 			grid.clear();
-			reset_squares();
+			squares = randomize_squares();
 			},
 
 		get_squares: function() {
