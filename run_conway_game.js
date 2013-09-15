@@ -21,6 +21,7 @@
 		document.getElementById("status").innerHTML = " paused..."
 		};
 
+	// helper function for test that compares two nested arrays
 	var compare_arrays = function(arr1, arr2) {
 		if (arr1.length !== arr2.length) {
 			return false;

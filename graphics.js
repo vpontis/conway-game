@@ -1,4 +1,4 @@
-// an abstraction for drawing in a canvas
+// an abstraction for drawing squares in a grid
 var Grid = function (canvas, num_squares) {
 	var context = canvas.getContext('2d');
 	var width = canvas.width;
@@ -12,7 +12,7 @@ var Grid = function (canvas, num_squares) {
 
 	// return the abstract object from the constructor
 	return {
-		// Clears the entire board
+		// clears the entire board
 		clear: function() {
 			context.clearRect(0, 0, width, height);
 			},
@@ -27,7 +27,7 @@ var Grid = function (canvas, num_squares) {
 				}
 			},
 
-		// Draws a square given indices
+		// draws a square given indices
 		draw_square: function(x_index, y_index) {
 			context.beginPath();
 			x_coord = x_index * square_width;
@@ -40,12 +40,14 @@ var Grid = function (canvas, num_squares) {
 		}
 	}
 
+// implements the conway game of life and returns control functions
 var Conway_Game = function(canvas, initial_squares){
 	var NUM_SQUARES = 40;
 	var grid = new Grid(canvas, NUM_SQUARES);
 
 	var squares = [];
 
+	// this function will set the initial state of the game
 	var randomize_squares = function() {
 		squares = new Array(NUM_SQUARES);
 		for (var i = 0; i < NUM_SQUARES; i++){
@@ -64,6 +66,7 @@ var Conway_Game = function(canvas, initial_squares){
 		squares = initial_squares;
 		}
 
+	// decides whether a square will live in the next time step
 	var square_lives =  function(x_index, y_index, squares) {
 		var num_neighbors = 0;
 		for (var i = -1; i <= 1; i++){
