@@ -1,7 +1,8 @@
 // implements the conway game of life and returns control functions
-var Conway_Game = function(grid_container, initial_squares){
+var Conway_Game = function(grid, initial_squares){
 	var squares = [];
 	var NUM_SQUARES = 40;
+	var GRID = grid;
 
 	// this function will set the initial state of the game
 	var randomize_squares = function() {
@@ -22,8 +23,6 @@ var Conway_Game = function(grid_container, initial_squares){
 		squares = initial_squares;
 		NUM_SQUARES = initial_squares.length;
 	}
-
-	var grid = new Grid(grid_container, NUM_SQUARES);
 
 	// decides whether a square will live in the next time step
 	var square_lives =  function(x_index, y_index, squares) {
@@ -63,14 +62,14 @@ var Conway_Game = function(grid_container, initial_squares){
 	return {
 		step: function() {
 			step_squares();
-			grid.clear();
-			grid.draw_squares(squares);
+			GRID.clear();
+			GRID.draw_squares(squares);
 		},
 
 		reset: function() {
-			grid.clear();
+			GRID.clear();
 			squares = randomize_squares();
-			grid.draw_squares(squares);
+			GRID.draw_squares(squares);
 		},
 
 		get_squares: function() {
@@ -85,12 +84,12 @@ var Conway_Game = function(grid_container, initial_squares){
 			} else {
 				squares[x][y] = true;
 			}
-			grid.square_clicked(square);
+			GRID.square_clicked(square);
 		},
 
 		setup_game: function(){
-			grid.setup_grid();
-			grid.draw_squares(squares);
+			GRID.setup_grid();
+			GRID.draw_squares(squares);
 		}
 	}
 }
