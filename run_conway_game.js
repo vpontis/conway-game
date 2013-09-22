@@ -1,9 +1,9 @@
-(function () {
+// (function () {
 	// begin the game when the page is loaded
-	game = Conway_Game(document.getElementById('canvas'));
-	var runId = setInterval(function(){
-		game.step()
-		}, 500);
+	// game = Conway_Game(document.getElementById('canvas'));
+	// var runId = setInterval(function(){
+	// 	game.step()
+	// 	}, 500);
 
 	var reset = function(){
 		game = Conway_Game(document.getElementById('canvas'));
@@ -65,10 +65,71 @@
 		document.getElementById("testingOutput").innerHTML = test_step_output;
 	}
 
+	var setup_grid = function(num_squares){
+		var grid = $('<div>').attr({
+			id: 'grid',
+			class: 'grid'
+		});
+
+		for (var i=0; i < num_squares; i++){
+			var row = create_row(num_squares, i); 
+			grid.append(row);
+		}
+		$('#grid-container').append(grid);
+	}
+
+	var create_row = function(num_squares, y){
+		var rowId = 'canvas-row-' + y;
+		var row = $('<div>', {
+			id: rowId,
+			class: 'canvas-row'
+			});
+
+		for (var i=0; i<num_squares; i++){
+			var square = create_square(i, y);
+			row.append(square);
+		}
+
+		return row;
+	}
+
+	var create_square = function(x, y){
+		var elemId = 'canvas-square-' + x + '-' + y;
+		var elem = $('<div>', {
+			class: 'canvas-square alive', 
+			id: elemId,
+			})
+			.text("c")
+			.attr("onClick", "square_clicked(this.id)");
+		return elem;
+	}
+
+	var square_clicked = function(id){
+		var square = $('#' + id);
+		if ($(square).hasClass('alive')){
+			$(square).removeClass('alive').addClass('dead');
+		} else {
+			$(square).removeClass('dead').addClass('alive');
+		}
+	}
+
+	var color_squares = function(){
+		var squares = game.get_squares();
+
+	}
+
+	var times = function(n, func){
+		for (var i=0; i<n; i++){
+			func();
+		}
+	}
+
+	setup_grid(40);
+
 	document.getElementById("resetButton").onclick = reset;
 	document.getElementById("playButton").onclick = play;
 	document.getElementById("pauseButton").onclick = pause;
 	document.getElementById("testButton").onclick = test;
-	game.reset();
+	// game.reset();
 
-	}) ()
+	// }) ()

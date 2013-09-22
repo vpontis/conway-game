@@ -2,17 +2,12 @@
 <html>
 <head>
     <script src="graphics.js"></script>
-    <style>
-    canvas {position: absolute; left: 100px; top: 100px; }
-    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="game_of_life.css">
 </head>
 
 <body>
 
-	<!--
-	define the HTML canvas element that will hold the graphical output
-	-->
-	<canvas id="canvas" height="600" width="600"></canvas>
 
 	<!--
 	define the buttons that will control the game
@@ -23,6 +18,11 @@
 	<button id="testButton">Test</button>
 	<span id="status"> playing...</span>
 
+    <!--
+    The element that will hold the grid
+    -->
+	<div id="grid-container"></div>
+    
 	<div id="testingOutput"></div>
 
 	<!--

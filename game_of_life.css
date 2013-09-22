@@ -1,0 +1,20 @@
+canvas {
+    position: absolute; 
+    left: 100px; 
+    top: 100px; 
+}
+.canvas-row {
+    margin: 0 0 0 0;
+}
+.canvas-square {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+.alive {
+    background-color: white;
+}
+.dead { 
+    background-color: black;
+}
