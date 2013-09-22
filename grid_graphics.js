@@ -52,17 +52,14 @@ var Grid = function (grid_container, num_squares) {
 		draw_squares: function(squares) {
 			this.clear();
 			this.setup_grid();
-			for (var i =0; i < NUM_SQUARES; i++){
-				for (var j=0; j < NUM_SQUARES; j++){
-					var square_id = '#canvas-square-' + i + '-' + j;
-
-					if (!!squares[i][j] === true) {
-						$(square_id).removeClass('alive').addClass('dead');
-					} else{
-						$(square_id).removeClass('dead').addClass('alive');
-					}
+			grid_for_each(NUM_SQUARES, function(i,j){
+				var square_id = '#canvas-square-' + i + '-' + j;
+				if (!!squares[i][j] === true) {
+					$(square_id).removeClass('dead').addClass('alice');
+				} else{
+					$(square_id).removeClass('alive').addClass('dead');
 				}
-			}
+			});
 		},
 
 		// after a square is clicked, if it is alive it becomes dead and vice versa
@@ -90,3 +87,11 @@ var Grid = function (grid_container, num_squares) {
 	}
 }
 
+
+var grid_for_each = function(length, func){
+	for (var i=0; i<length; i++){
+		for (var j=0; j<length; j++){
+			func(i,j);
+		}
+	}
+}

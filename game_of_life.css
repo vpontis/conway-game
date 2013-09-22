@@ -9,8 +9,8 @@
     text-align: center;
 }
 .alive {
-    background-color: white;
+    background-color: black
 }
 .dead { 
-    background-color: black;
+    background-color: white;
 }

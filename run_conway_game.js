@@ -14,13 +14,21 @@ var play = function(){
 	runId = setInterval(function(){
 		game.step()	
 		}, 500);
+	$('#playButton').hide();
+	$('#stepButton').hide();
+	$('#testButton').hide();
+	$('#pauseButton').show();
 	$("#status").html(" playing...");
 };
 
 var pause = function(){
 	locked = false;
 	clearInterval(runId);
-	document.getElementById("status").innerHTML = " paused..."
+	$('#playButton').show();
+	$('#stepButton').show();
+	$('#testButton').show();
+	$('#pauseButton').hide();
+	$("#status").html(" paused...");
 };	
 
 // helper function for test that compares two nested arrays
