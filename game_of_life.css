@@ -1,10 +1,6 @@
-canvas {
-    position: absolute; 
-    left: 100px; 
-    top: 100px; 
-}
 .canvas-row {
     margin: 0 0 0 0;
+    height: 20px;
 }
 .canvas-square {
     height: 20px;
