@@ -17,6 +17,7 @@ var play = function(){
 	$('#playButton').hide();
 	$('#stepButton').hide();
 	$('#testButton').hide();
+	$('#clearButton').hide();
 	$('#pauseButton').show();
 	$("#status").html(" playing...");
 };
@@ -27,6 +28,7 @@ var pause = function(){
 	$('#playButton').show();
 	$('#stepButton').show();
 	$('#testButton').show();
+	$('#clearButton').show();
 	$('#pauseButton').hide();
 	$("#status").html(" paused...");
 };	
@@ -57,7 +59,6 @@ var step = function(){
 var grid = Grid($('#grid-container'))
 var game = Conway_Game(grid);
 game.setup_game();
-play();
 
 var compare_arrays = function(arr1, arr2) {
 	if (arr1.length !== arr2.length) {
@@ -108,3 +109,4 @@ $("#playButton").click(play);
 $("#pauseButton").click(pause);
 $("#testButton").click(test);
 $("#stepButton").click(step);
+$("#clearButton").click(game.clear);

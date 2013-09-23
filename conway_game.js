@@ -5,23 +5,25 @@ var Conway_Game = function(grid, initial_squares){
 	var grid = grid;
 
 	// this function will set the initial state of the game
-	var randomize_squares = function() {
+	// 
+	var reset_squares = function(clear) {
 		squares = new Array(NUM_SQUARES);
 		jQuery.each(squares, function(i){
 			squares[i] = new Array(NUM_SQUARES);
 		});
 
-
 		grid_for_each(NUM_SQUARES, function(i,j){
-			if (Math.random() > .5) {
+			if (!clear && Math.random() > .5) {
 				squares[i][j] = true;
+			} else {
+				squares[i][j] = false;
 			}
 		});
 		return squares;
 	}
-	
+
 	if (initial_squares === undefined){
-		squares = randomize_squares();
+		squares = reset_squares();
 	} else {
 		squares = initial_squares;
 		NUM_SQUARES = initial_squares.length;
@@ -75,6 +77,13 @@ var Conway_Game = function(grid, initial_squares){
 	};
 
 	return {
+		// clears the board
+		clear: function() {
+			squares = reset_squares(true);
+			grid.clear();
+			grid.draw_squares(squares);
+		},
+
 		// advances the game a unit of time and redraws the grid appropriately
 		step: function() {
 			step_squares();
@@ -84,7 +93,7 @@ var Conway_Game = function(grid, initial_squares){
 
 		// resets the game by randomizing the squares then drawing the result
 		reset: function() {
-			squares = randomize_squares();
+			squares = reset_squares();
 			grid.clear();
 			grid.draw_squares(squares);
 		},
