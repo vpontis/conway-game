@@ -5,7 +5,6 @@ var Conway_Game = function(grid, initial_squares){
 	var grid = grid;
 
 	// this function will set the initial state of the game
-	// 
 	var reset_squares = function(clear) {
 		squares = new Array(NUM_SQUARES);
 		jQuery.each(squares, function(i){
@@ -28,7 +27,6 @@ var Conway_Game = function(grid, initial_squares){
 		squares = initial_squares;
 		NUM_SQUARES = initial_squares.length;
 	}
-
 
 	// iterates i, j over -1, +1 to check the neighbors of a square
 	var square_neighbors = function(func){

@@ -1,7 +1,10 @@
 // locked stores the state of the game
 // if locked is true, the game is being played and squares cannot be modified
 // if locked is false, the game is paused and squares can be modified
-var locked = true;
+var locked = false;
+
+// run id will be the process we will start and stop for stepping the game
+var runId;
 
 // this resets the game by randomizing all of the squares
 var reset = function(){
@@ -20,6 +23,7 @@ var play = function(){
 	$('#clearButton').hide();
 	$('#pauseButton').show();
 	$("#status").html(" playing...");
+	$("#testingOutput").html("");
 };
 
 var pause = function(){
@@ -78,10 +82,11 @@ var compare_arrays = function(arr1, arr2) {
 }
 
 var test_step = function(){
-	test_output = "";
+	var test_output = "";
 
 	var squares = [[1, 1, 1], [1,1, 1], [1,1,1]];
-	var test_game = Conway_Game(document.getElementById('grid-container'), squares);
+	var grid = Grid($('grid-container'), 3);
+	var test_game = Conway_Game(grid, squares);
 
 	test_game.step();
 	test_output += "initial step: ";
@@ -97,10 +102,33 @@ var test_step = function(){
 	return test_output;
 	};
 
+var test_clear = function(){
+	var test_output = "";
+
+	var squares = [[1, 1, 1], [1,1, 1], [1,1,1]];
+	var grid = Grid($('grid-container'), 3);
+	var test_game = Conway_Game(grid, squares);
+
+	test_game.clear();
+	test_output += "reset squares: ";
+	test_output += compare_arrays(test_game.get_squares(),
+		[[false,false,false], [false,false,false], [false,false,false]]);
+	test_output += "<br />";
+	return test_output;
+}
+
 var test = function(){
 	pause();
-	test_step_output = test_step();
-	document.getElementById("testingOutput").innerHTML = test_step_output;
+	var test_output = "Testing output <br />";
+	test_output += test_step();
+	test_output += test_clear();
+	$("#testingOutput").html(test_output);
+
+	// begin the game when the page is loaded
+	grid = Grid($('#grid-container'))
+	game = Conway_Game(grid);
+	game.setup_game();
+
 };
 
 // these lines setup the event handlers for each of the buttons
